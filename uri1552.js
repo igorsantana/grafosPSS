@@ -1,7 +1,10 @@
 (function() {
   var fs = require('fs'),
+    // Modelo do Grafo
     Grafo = require('./Grafo'),
+    // Modelo do vẽrtice
     Vertice = require('./Vertice'),
+    // Modelo do UnionFind
     UnionFind = require('./UnionFind')();
   fs.readFile('./entry.txt', {
     encoding: 'utf8'
@@ -58,18 +61,14 @@
     }
     var mst = [],
       floresta = grafo.getVertices(),
-      arestasOrdenadas = grafo.getArestas().sort(sortArestas).reverse();
-    arestasOrdenadas.forEach(function(value) {
-      if (UnionFind.Find(value.de) != UnionFind.Find(value.para)) {
-        mst.push(value);
-        UnionFind.Union(value.de, value.para);
+      arestasOrdenadas = grafo.getArestas().sort(sortArestas).reverse(),
+      somaTotal = 0;
+    while (Object.keys(UnionFind.Conjuntos).length != 1 && arestasOrdenadas.length > 0) {
+      var aresta = arestasOrdenadas.shift();
+      if (UnionFind.Union(aresta.de,aresta.para)) {
+        somaTotal += aresta.distancia;
       }
-    })
-    var somaTotal = 0;
-    mst.forEach(function(data) {
-      console.log('DE: (x:' + data.de.x + ',' + data.de.y + ') | PARA:(' + data.para.x + ',' + data.para.y + ') | DISTANCIA:' + data.distancia);
-      somaTotal += data.distancia;
-    })
+    }
     console.log((somaTotal / 100).toFixed(2));
   }
 })();
