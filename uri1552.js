@@ -14,7 +14,8 @@
     var content = data.split('\n'),
       numberOfCases = content[0],
       cases = {},
-      counter = 0;
+      counter = 0,
+      resultado = {};
     content.shift();
     // Lê o arquivo e cria os vértices.
     for (var i = 0; i < content.length; i++) {
@@ -34,7 +35,8 @@
         // Pra cada case, cria toda as arestas
         criaTodasArestas(cases[key]);
         // Executa o kruskal
-        kruskal(cases[key])
+        resultado[[key]] = kruskal(cases[key]);
+        console.log(resultado[key].total);
       }
   }
 
@@ -61,14 +63,18 @@
     }
     var mst = [],
       floresta = grafo.getVertices(),
-      arestasOrdenadas = grafo.getArestas().sort(sortArestas).reverse(),
+      arestasOrdenadas = grafo.getArestas().sort(sortArestas),
       somaTotal = 0;
     while (Object.keys(UnionFind.Conjuntos).length != 1 && arestasOrdenadas.length > 0) {
       var aresta = arestasOrdenadas.shift();
-      if (UnionFind.Union(aresta.de,aresta.para)) {
+      if (UnionFind.Union(aresta.de, aresta.para)) {
+        mst.push(aresta)
         somaTotal += aresta.distancia;
       }
     }
-    console.log((somaTotal / 100).toFixed(2));
+    return {
+      total: (somaTotal / 100).toFixed(2),
+      mst: mst
+    }
   }
 })();
