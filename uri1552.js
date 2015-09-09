@@ -25,16 +25,20 @@
       criaTodasArestas(cases[key]);
       kruskal(cases[key])
     }
+  }
 
+  function getDistance(v1,v2){
+    var a = v1.x - v2.x,
+				b = v1.y - v2.y;
+		return Math.sqrt((a*a)+(b*b));
   }
 
   function criaTodasArestas(case_){
-    case_.getVertices().forEach(function(value){
-      // Faz o MakeSet
+    case_.vertices.forEach(function(value){
       UnionFind.MakeSet(value);
-      case_.getVertices().forEach(function(data){
-        if(data.getDistanceFrom(value) != -1){
-          case_.addAresta(value,data,data.getDistanceFrom(value));
+      case_.vertices.forEach(function(obj){
+        if(obj.identificador != value.identificador){
+          case_.addAresta(value,obj,getDistance(value,obj));
         }
       })
     })
@@ -42,26 +46,21 @@
 
   function kruskal(grafo){
     function sortArestas(aresta1,aresta2){
-      var d1 = aresta1.distancia, d2 = aresta2.distancia;
-      if(d1 < d2) return -1
-      if(d1 < d2) return 1
-      return 0
+      return aresta1.distancia - aresta2.distancia;
     }
     var mst = []
     ,   floresta = grafo.getVertices()
     ,   arestasOrdenadas = grafo.getArestas().sort(sortArestas).reverse();
-
     arestasOrdenadas.forEach(function(value){
       if(UnionFind.Find(value.de) != UnionFind.Find(value.para)){
         mst.push(value);
         UnionFind.Union(value.de,value.para);
       }
     })
-    var somaTotal;
+    var somaTotal = 0;
     mst.forEach(function(oi){
-      // console.log(oi.distancia);
       somaTotal += oi.distancia;
     })
-
+    console.log((somaTotal/100).toFixed(2));
   }
 })();

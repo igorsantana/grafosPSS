@@ -14,13 +14,12 @@ module.exports = function(){
       ,   conjuntoInteiro1 = this.Conjuntos[conjuntoDoVerticeV1]
       ,   conjuntoInteiro2 = this.Conjuntos[conjuntoDoVerticeV2];
 
-      if(conjuntoDoVerticeV1.identificador == conjuntoDoVerticeV2.identificador){
+      if(conjuntoDoVerticeV1 == conjuntoDoVerticeV2){
         return false;
       }
-      console.log(conjuntoInteiro1,conjuntoInteiro2);
       if(conjuntoInteiro1.quantity < conjuntoInteiro2.quantity){
         conjuntoInteiro1.vertices.map(function(value){
-          value.conjunto = conjuntoInteiro2;
+          value.conjunto = conjuntoDoVerticeV2;
           return value;
         })
         conjuntoInteiro2.vertices.concat(conjuntoInteiro1.vertices);
@@ -28,7 +27,7 @@ module.exports = function(){
         delete this.Conjuntos[conjuntoInteiro1];
       } else {
         conjuntoInteiro2.vertices.map(function(value){
-  				value.conjunto = conjuntoInteiro1;
+  				value.conjunto = conjuntoDoVerticeV1;
   				return value;
   			})
   			conjuntoInteiro1.vertices.concat(conjuntoInteiro2.vertices)

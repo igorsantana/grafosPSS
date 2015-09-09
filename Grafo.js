@@ -18,10 +18,10 @@ module.exports = function Grafo(){
     return this.vertices;
   }
   this.addVertice = function(v){
-      var boolean = this.getVertices().filter(function(val){
-        return (val.x == v.x) && (val.y == v.y);
-      }).length > 0;
-      if(!boolean){
+    var bool = this.vertices.filter(function(val){
+      return v.identificador == val.identificador
+    }).length > 0;
+      if(!bool){
         this.vertices.push(v);
       }
   }
